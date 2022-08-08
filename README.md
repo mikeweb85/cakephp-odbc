@@ -1,4 +1,4 @@
-# Sqlsrv plugin for CakePHP
+# ODBC PDO plugin for CakePHP
 
 ## Installation
 
