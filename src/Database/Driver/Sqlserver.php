@@ -174,7 +174,7 @@ class Sqlserver extends CakeSqlserver {
     public function enabled(): bool {
         return (
             in_array('odbc', PDO::getAvailableDrivers(), true) &&
-            !empty($this->getDriversFromProtocol('sqlserver'))
+            !empty(Odbc::getDriversForProtocol('sqlserver'))
         );
     }
 }
