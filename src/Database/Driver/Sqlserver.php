@@ -4,8 +4,11 @@ namespace MikeWeb\CakeOdbc\Database\Driver;
 
 use Cake\Database\Driver\Sqlserver as CakeSqlserver;
 use Cake\Database\Exception\MissingDriverException;
+use Cake\Database\QueryCompiler;
+use Cake\Database\SqlserverCompiler;
 use InvalidArgumentException;
 use MikeWeb\CakeOdbc\Utility\Odbc;
+use MikeWeb\CakeOdbc\Database\SqlserverCompiler as OverrideCompiler;
 use PDO;
 
 class Sqlserver extends CakeSqlserver {
@@ -176,5 +179,19 @@ class Sqlserver extends CakeSqlserver {
             in_array('odbc', PDO::getAvailableDrivers(), true) &&
             !empty(Odbc::getDriversForProtocol('sqlserver'))
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return \Cake\Database\SqlserverCompiler
+     */
+    public function newCompiler(): QueryCompiler
+    {
+        $output = $this->_config['useInsertOutput'] ?? true;
+
+        if ($output === false)
+            return new OverrideCompiler();
+
+        return new SqlserverCompiler();
     }
 }
